@@ -22,4 +22,13 @@ public class Invoice {
     private String itemNo;
     private String comment;
     private Integer price;
+
+    public Invoice(String customer, Date postDate, Date deadline, String itemNo, String comment, Integer price) {
+        this.customer = customer;
+        this.postDate = postDate;
+        this.deadline = deadline;
+        this.itemNo = itemNo;
+        this.comment = comment;
+        this.price = price;
+    }
 }
