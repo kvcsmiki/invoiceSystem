@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Regisztráció</title>
+</head>
+<body>
+    <div>
+        <form action="#" th:action="@{/back}" method="post">
+            <button type="submit">Vissza</button>
+        </form>
+    </div>
+    <div>
+        <form action="#" th:action="@{/register}" th:object="${userDto}" method="post">
+            <div th:if="${errorMessage != ''}">
+                <h1 th:text="${errorMessage}"></h1>
+            </div>
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" th:field="*{username}" required/>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" th:field="*{password}" required/>
+            </div>
+            <div>
+                <select name="selectedRole">
+                    <option th:each="role : ${roles}" th:text="${role.name}" th:value="${role.name}"></option>
+                </select>
+            </div>
+            <div>
+                <button type="submit" id="registerButton" disabled="true">Regisztráció</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const registerButton = document.getElementById('registerButton');
+
+        usernameInput.addEventListener('input', toggleRegisterButton);
+        passwordInput.addEventListener('input', toggleRegisterButton);
+
+        function toggleRegisterButton() {
+            if (usernameInput.value !== '' && passwordInput.value !== '') {
+                registerButton.disabled = false;
+            } else {
+                registerButton.disabled = true;
+            }
+        }
+    </script>
+</body>
+</html>

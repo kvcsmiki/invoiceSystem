@@ -21,7 +21,7 @@ public class User {
     private String username;
     private String password;
     private Date loginDate;
-    @OneToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private List<Role> roles;
 
     public User(String username, String password, List<Role> roles){

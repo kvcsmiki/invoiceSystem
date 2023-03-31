@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>Roles</th>
+            <th>Delete</th>
+        </tr>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}"></td>
+            <td>
+                <form method="post" th:action="@{/users/roles}">
+                    <input type="hidden" name="username" th:value="${user.username}" />
+                    <select multiple name="selectedRoles">
+                        <option th:each="role : ${roles}"
+                                th:value="${role}"
+                                th:text="${role.name}"
+                                th:selected="${user.roles.contains(role)}"></option>
+                    </select>
+                    <button type="submit">Save</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" th:action="@{/users/delete}">
+                    <input type="hidden" name="username" th:value="${user.username}" />
+                    <button type="submit">Delete</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

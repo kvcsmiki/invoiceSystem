@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,9 +44,36 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void registerUser(String username, String password, RoleDto role) {
-        Role role1 = roleRepository.findByName(role.getName());
-        User user = new User(username, password, List.of(role1));
-        userRepository.save(user);
+    public boolean registerUser(String username, String password, String role) {
+        Role role1 = roleRepository.findByName(role);
+        boolean exists = userRepository.findAll().stream().anyMatch(user -> user.getUsername().equals(username));
+        if(!exists && role1 != null){
+            User user = new User(username, password, List.of(role1));
+            userRepository.save(user);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    @Override
+    public List<UserDto> getAllUsers(){
+        return userRepository.findAll()
+                .stream()
+                .map(user -> convertUser(user))
+                .toList();
+    }
+
+    @Override
+    public Optional<UserDto> getUser(String username){
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isEmpty()){
+            return Optional.empty();
+        }
+        return Optional.of(new UserDto(user.get().getUsername(),user.get().getRoles(),user.get().getLoginDate()));
+    }
+
+    private UserDto convertUser(User user){
+        return new UserDto(user.getUsername(), user.getRoles(),user.getLoginDate());
     }
 }

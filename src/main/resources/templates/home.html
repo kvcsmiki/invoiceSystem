@@ -6,23 +6,30 @@
 </head>
 <body>
     <div>
-        <h2>Üdvözöljük <span th:text="${user.username}"></span>!</h2>
+        <h2>Üdvözöljük <span th:text="${userDto.username}"></span>!</h2>
         <h2>Szerepkörök:</h2>
         <ul>
-            <li th:each="role: ${user.roles}">
-                <span th:text="${role.name"></span>
+            <li th:each="role: ${userDto.roles}">
+                <span th:text="${role.name}"></span>
+                <span th:if="${role.description != null}" th:text="' - ' + ${role.description}"></span>
             </li>
         </ul>
     </div>
+    <form action="#" th:action="@{/back}" method="post">
+        <button type="submit">Kilépés</button>
+    </form>
     <div>
-        <div>
-            <a th:href="@{/admin}"><button>Adminisztrációs oldal</button></a>
-        </div>
+        <form action="#" th:action="@{/goToAdmin}" method="post">
+            <div th:if="${#lists.contains(userDto.roles.![name], 'admin')}">
+                <input type="hidden" name="username" th:value="${userDto.username}">
+                <a><button type="submit">Adminisztrációs oldal</button></a>
+            </div>
+        </form>
         <div>
             <a th:href="@{/invoiceList}"><button>Számlák listája</button></a>
         </div>
         <div>
-            <form action="#" th:action="@{/invoice}" th:object="${invoice}" method="post">
+            <form action="#" th:action="@{/invoice}" th:object="${invoiceDto}" method="post">
                 <div>
                     <label for="customer">Vásárló</label>
                     <input type="text" id="customer" th:field="*{customer}"/>
@@ -32,19 +39,19 @@
                     <input type="date" id="postDate" th:field="*{postDate}"/>
                 </div>
                 <div>
-                    <label for="deadline">Vásárló</label>
+                    <label for="deadline">Határidő</label>
                     <input type="date" id="deadline" th:field="*{deadline}"/>
                 </div>
                 <div>
-                    <label for="itemNo">Vásárló</label>
+                    <label for="itemNo">Tétel neve</label>
                     <input type="text" id="itemNo" th:field="*{itemNo}"/>
                 </div>
                 <div>
-                    <label for="comment">Vásárló</label>
+                    <label for="comment">Megjegyzés</label>
                     <input type="text" id="comment" th:field="*{comment}"/>
                 </div>
                 <div>
-                    <label for="price">Vásárló</label>
+                    <label for="price">Ár</label>
                     <input type="text" inputmode="numeric" pattern="\d*" id="price" th:field="*{price}"/>
                 </div>
                 <div>
@@ -52,7 +59,7 @@
                 </div>
             </form>
         </div>
-        <div>
+        <div th:if="${#lists.contains(userDto.roles.![name], 'admin') or #lists.contains(userDto.roles.![name], 'konyvelo')}">
             <a th:href="@{/invoiceCreate}"><button>Számla létrehozása</button></a>
         </div>
     </div>

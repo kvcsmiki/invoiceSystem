@@ -26,11 +26,11 @@ public class InMemoryDatabaseInitializer {
         Role rUser = new Role(RoleHelper.USER.getValue());
         roleRepository.saveAll(List.of(rAdmin,rAccountant,rUser));
 
-        User admin = new User("Admin","asd123",
+        User admin = new User("admin","asd123",
                 List.of(roleRepository.findByName(RoleHelper.ADMIN.getValue())));
-        User accountant = new User("Konyvelo","asd123",
+        User accountant = new User("konyvelo","asd123",
                 List.of(roleRepository.findByName(RoleHelper.ACCOUNTANT.getValue())));
-        User user = new User("User","asd123",
+        User user = new User("user","asd123",
                 List.of(roleRepository.findByName(RoleHelper.USER.getValue())));
         userRepository.saveAll(List.of(admin,accountant,user));
     }
