@@ -1,16 +1,22 @@
-package com.task.invoice.entities;
+package com.task.invoice.core.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
 @Data
 @Table(name = "Invoices")
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Invoice {
 
     @Id
@@ -21,9 +27,9 @@ public class Invoice {
     private Date deadline;
     private String itemNo;
     private String comment;
-    private Integer price;
+    private int price;
 
-    public Invoice(String customer, Date postDate, Date deadline, String itemNo, String comment, Integer price) {
+    public Invoice(String customer, Date postDate, Date deadline, String itemNo, String comment, int price) {
         this.customer = customer;
         this.postDate = postDate;
         this.deadline = deadline;
