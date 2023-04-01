@@ -73,6 +73,27 @@ public class UserServiceImpl implements UserService{
         return Optional.of(new UserDto(user.get().getUsername(),user.get().getRoles(),user.get().getLoginDate()));
     }
 
+    @Override
+    public boolean saveRoles(String username, List<Role> roles){
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isEmpty()){
+            return false;
+        }
+        user.get().setRoles(roles);
+        userRepository.save(user.get());
+        return true;
+    }
+
+    @Override
+    public boolean deleteUser(String username){
+        Optional<User> user = userRepository.findByUsername(username);
+        if(user.isEmpty()){
+            return false;
+        }
+        userRepository.delete(user.get());
+        return true;
+    }
+
     private UserDto convertUser(User user){
         return new UserDto(user.getUsername(), user.getRoles(),user.getLoginDate());
     }

@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -23,13 +23,13 @@ public class Invoice {
     @GeneratedValue
     private Integer id;
     private String customer;
-    private Date postDate;
-    private Date deadline;
+    private LocalDate postDate;
+    private LocalDate deadline;
     private String itemNo;
     private String comment;
     private int price;
 
-    public Invoice(String customer, Date postDate, Date deadline, String itemNo, String comment, int price) {
+    public Invoice(String customer, LocalDate postDate, LocalDate deadline, String itemNo, String comment, int price) {
         this.customer = customer;
         this.postDate = postDate;
         this.deadline = deadline;

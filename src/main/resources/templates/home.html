@@ -25,22 +25,29 @@
                 <a><button type="submit">Adminisztrációs oldal</button></a>
             </div>
         </form>
+        <form action="#" th:action="@{/goToInvoiceList}" method="post">
+            <div>
+                <input type="hidden" name="username" th:value="${userDto.username}">
+                <a><button type="submit">Számlák listája</button></a>
+            </div>
+        </form>
         <div>
-            <a th:href="@{/invoiceList}"><button>Számlák listája</button></a>
-        </div>
-        <div>
-            <form action="#" th:action="@{/invoice}" th:object="${invoiceDto}" method="post">
+            <div>
+                <p th:if="${errorMessage != ''}" th:text="${errorMessage}"></p>
+            </div>
+            <form action="#" th:action="@{/openInvoice}" th:object="${invoiceDto}" method="post">
+                <input type="hidden" name="username" th:value="${userDto.username}">
                 <div>
                     <label for="customer">Vásárló</label>
                     <input type="text" id="customer" th:field="*{customer}"/>
                 </div>
                 <div>
                     <label for="postDate">Kiállítás dátuma</label>
-                    <input type="date" id="postDate" th:field="*{postDate}"/>
+                    <input type="date" id="postDate" th:field="*{postDate}" th:placeholder="yyyy-MM-dd"/>
                 </div>
                 <div>
                     <label for="deadline">Határidő</label>
-                    <input type="date" id="deadline" th:field="*{deadline}"/>
+                    <input type="date" id="deadline" th:field="*{deadline}" th:placeholder="yyyy-MM-dd"/>
                 </div>
                 <div>
                     <label for="itemNo">Tétel neve</label>

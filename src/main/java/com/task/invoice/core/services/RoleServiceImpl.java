@@ -6,6 +6,7 @@ import com.task.invoice.core.repositories.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -31,5 +32,12 @@ public class RoleServiceImpl implements RoleService{
     @Override
     public Role getRole(String name) {
         return roleRepository.findByName(name);
+    }
+
+    @Override
+    public List<Role> getRoles(List<String> names){
+        List<Role> result = new ArrayList<>();
+        names.stream().forEach(name -> result.add(roleRepository.findByName(name)));
+        return result;
     }
 }

@@ -17,4 +17,8 @@ public interface UserService {
 
     List<UserDto> getAllUsers();
     Optional<UserDto> getUser(String username);
+
+    boolean saveRoles(String username, List<Role> roles);
+
+    boolean deleteUser(String username);
 }

@@ -1,6 +1,6 @@
 package com.task.invoice.ui.login;
 
-import com.task.invoice.core.dtos.InvoiceDto;
+
 import com.task.invoice.core.dtos.UserDto;
 import com.task.invoice.core.services.UserService;
 import lombok.RequiredArgsConstructor;

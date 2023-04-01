@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Számla</title>
+</head>
+<body>
+    <div>
+        <form action="#" th:action="@{/invoice/back}" method="post">
+            <input type="hidden" name="userDto" th:value="${userDto.username}">
+            <input type="hidden" name="backPage" th:value="${backPage}">
+            <button type="submit">Vissza</button>
+        </form>
+    </div>
+    <form action="#" th:object="${invoiceDto}">
+        <div>
+            <label for="customer">Vásárló</label>
+            <input type="text" id="customer" th:field="*{customer}" disabled="true"/>
+        </div>
+        <div>
+            <label for="postDate">Kiállítás dátuma</label>
+            <input type="date" id="postDate" th:field="*{postDate}" disabled="true"/>
+        </div>
+        <div>
+            <label for="deadline">Határidő</label>
+            <input type="date" id="deadline" th:field="*{deadline}" disabled="true"/>
+        </div>
+        <div>
+            <label for="itemNo">Tétel neve</label>
+            <input type="text" id="itemNo" th:field="*{itemNo}" disabled="true"/>
+        </div>
+        <div>
+            <label for="comment">Megjegyzés</label>
+            <input type="text" id="comment" th:field="*{comment}" disabled="true"/>
+        </div>
+        <div>
+            <label for="price">Ár</label>
+            <input type="text" inputmode="numeric" pattern="\d*" id="price" th:field="*{price}" disabled="true"/>
+        </div>
+    </form>
+</body>
+</html>

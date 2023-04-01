@@ -5,6 +5,15 @@
     <title>Admin</title>
 </head>
 <body>
+    <div>
+        <p th:if="${errorMessage != ''}" th:text="${errorMessage}"></p>
+    </div>
+    <div>
+        <form action="#" th:action="@{/backToHome}" method="post">
+            <input type="hidden" name="userDto" th:value="${userDto.username}">
+            <button type="submit">Vissza</button>
+        </form>
+    </div>
     <table>
         <tr>
             <th>Username</th>
@@ -14,11 +23,12 @@
         <tr th:each="user : ${users}">
             <td th:text="${user.username}"></td>
             <td>
-                <form method="post" th:action="@{/users/roles}">
+                <form method="post" th:action="@{/admin/saveRoles}">
+                    <input type="hidden" name="userDto" th:value="${userDto.username}">
                     <input type="hidden" name="username" th:value="${user.username}" />
                     <select multiple name="selectedRoles">
                         <option th:each="role : ${roles}"
-                                th:value="${role}"
+                                th:value="${role.name}"
                                 th:text="${role.name}"
                                 th:selected="${user.roles.contains(role)}"></option>
                     </select>
@@ -26,7 +36,8 @@
                 </form>
             </td>
             <td>
-                <form method="post" th:action="@{/users/delete}">
+                <form method="post" th:action="@{/admin/deleteUser}">
+                    <input type="hidden" name="userDto" th:value="${userDto.username}">
                     <input type="hidden" name="username" th:value="${user.username}" />
                     <button type="submit">Delete</button>
                 </form>
