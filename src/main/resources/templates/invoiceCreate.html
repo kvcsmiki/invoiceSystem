@@ -3,43 +3,89 @@
     <head>
         <meta charset="UTF-8">
         <title>Számla létrehozás</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" th:href="@{static/invoice.css}">
     </head>
     <body>
-        <div>
-            <form action="#" th:action="@{/invoiceCreate/back}" method="post">
-                <input type="hidden" name="userDto" th:value="${userDto.username}">
-                <input type="hidden" name="backPage" th:value="${backPage}">
-                <button type="submit">Vissza</button>
-            </form>
+        <div id="main">
+            <div>
+                <form action="#" th:action="@{/invoiceCreate/back}" method="post">
+                    <input type="hidden" name="userDto" th:value="${userDto.username}">
+                    <input type="hidden" name="backPage" th:value="${backPage}">
+                    <button type="submit">Vissza</button>
+                </form>
+            </div>
+            <div id="details">
+                <form action="#" th:object="${invoiceDto}" th:action="@{/invoiceCreate/create}" method="post">
+                  <input type="hidden" name="userDto" th:value="${userDto.username}">
+                  <input type="hidden" name="backPage" th:value="${backPage}">
+                  <div>
+                      <h2 th:if="${errorMessage != ''}" th:text="${errorMessage}" id="errorMessage"></h2>
+                  </div>
+                  <div style="visibility: visible" id="warning">
+                    <h2>A mezők kitöltése kötelező!</h2>
+                  </div>
+                    <div>
+                        <label for="customer">Vásárló</label>
+                        <input type="text" id="customer" th:field="*{customer}"/>
+                    </div>
+                    <div>
+                        <label for="postDate">Kiállítás dátuma</label>
+                        <input type="date" id="postDate" th:field="*{postDate}"/>
+                    </div>
+                    <div>
+                        <label for="deadline">Határidő</label>
+                        <input type="date" id="deadline" th:field="*{deadline}"/>
+                    </div>
+                    <div>
+                        <label for="itemNo">Tétel neve</label>
+                        <input type="text" id="itemNo" th:field="*{itemNo}"/>
+                    </div>
+                    <div>
+                        <label for="comment">Megjegyzés</label>
+                        <input type="text" id="comment" th:field="*{comment}"/>
+                    </div>
+                    <div>
+                        <label for="price">Ár</label>
+                        <input type="text" inputmode="numeric" id="price" th:field="*{price}"/>
+                    </div>
+                    <div>
+                        <button type="submit" id="createButton" disabled="true">Létrehozás</button>
+                    </div>
+                </form>
+            </div>
         </div>
-        <form action="#" th:object="${invoiceDto}" th:action="@{/invoiceCreate/create}">
-            <div>
-                <label for="customer">Vásárló</label>
-                <input type="text" id="customer" th:field="*{customer}"/>
-            </div>
-            <div>
-                <label for="postDate">Kiállítás dátuma</label>
-                <input type="date" id="postDate" th:field="*{postDate}"/>
-            </div>
-            <div>
-                <label for="deadline">Határidő</label>
-                <input type="date" id="deadline" th:field="*{deadline}"/>
-            </div>
-            <div>
-                <label for="itemNo">Tétel neve</label>
-                <input type="text" id="itemNo" th:field="*{itemNo}"/>
-            </div>
-            <div>
-                <label for="comment">Megjegyzés</label>
-                <input type="text" id="comment" th:field="*{comment}"/>
-            </div>
-            <div>
-                <label for="price">Ár</label>
-                <input type="text" inputmode="numeric" pattern="\d*" id="price" th:field="*{price}"/>
-            </div>
-            <div>
-                <button type="submit">Létrehozás</button>
-            </div>
-        </form>
+        <script>
+            const customer = document.getElementById('customer');
+            const postDate = document.getElementById('postDate');
+            const deadline = document.getElementById('deadline');
+            const itemNo = document.getElementById('itemNo');
+            const comment = document.getElementById('comment');
+            const price = document.getElementById('price');
+            const createButton = document.getElementById('createButton');
+            const warning = document.getElementById('warning');
+            const errorMessage = document.getElementById('errorMessage');
+
+            customer.addEventListener('input', toggleCreateButton);
+            postDate.addEventListener('input', toggleCreateButton);
+            deadline.addEventListener('input', toggleCreateButton);
+            itemNo.addEventListener('input', toggleCreateButton);
+            comment.addEventListener('input', toggleCreateButton);
+            price.addEventListener('input', toggleCreateButton);
+
+            function toggleCreateButton() {
+                if (customer.value !== '' && postDate.value !== '' &&
+                    deadline.value !== '' && itemNo.value !== '' &&
+                    comment.value !== '' && price.value !== '') {
+                    createButton.disabled = false;
+                    warning.style = 'display: none';
+                    errorMessage.innerHTML = 'A számla létrehozásra kész';
+                } else {
+                    createButton.disabled = true;
+                    warning.style = 'display: block';
+                    errorMessage.innerHTML = '';
+                }
+            }
+        </script>
     </body>
 </html>

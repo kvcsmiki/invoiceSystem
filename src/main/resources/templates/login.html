@@ -3,27 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Bejelentkezés</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{static/login.css}">
 </head>
 <body>
-    <div>
-        <form action="#" th:action="@{/login}" th:object="${userDto}" method="post">
-            <div>
-                <label for="username">Username:</label>
-                <input type="text" id="username" th:field="*{username}" required/>
-            </div>
-            <div>
-                <label for="password">Password:</label>
-                <input type="password" id="password" th:field="*{password}" required/>
-            </div>
-            <div>
-                <button type="submit" id="loginButton" disabled="true">Login</button>
-            </div>
-        </form>
-    </div>
-    <div>
-        <form action="#" th:action="@{/goToRegister}" method="post">
-            <button type="submit">Regisztráció</button>
-        </form>
+    <div id="main">
+        <div>
+            <form action="#" th:action="@{/login}" th:object="${userDto}" method="post">
+                <input type="hidden" name="failCount" th:value="${failCount}">
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" th:field="*{username}" required/>
+                </div>
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" th:field="*{password}" required/>
+                </div>
+                <div class="g-recaptcha" data-sitekey="6LeSFU8lAAAAAD5YA6EdGNqfy0K88zV0aeMDUDt1" th:if="${failCount == 3}"></div>
+                <script src="https://www.google.com/recaptcha/api.js"></script>
+                <div>
+                    <button type="submit" id="loginButton" disabled="true">Login</button>
+                </div>
+            </form>
+        </div>
+        <div>
+            <form action="#" th:action="@{/goToRegister}" method="post">
+                <button type="submit">Regisztráció</button>
+            </form>
+        </div>
     </div>
     <script>
         const usernameInput = document.getElementById('username');

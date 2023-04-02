@@ -25,6 +25,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 .deadline(deadline)
                 .itemNo(itemNo)
                 .comment(comment)
+                .price(price)
                 .build();
         invoiceRepository.save(invoice);
     }

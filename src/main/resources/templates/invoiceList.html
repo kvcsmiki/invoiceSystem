@@ -2,40 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org">
   <head>
     <title>Számlák</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{static/invoiceList.css}">
   </head>
   <body>
-    <div>
-      <form action="#" th:action="@{/backToHome}" method="post">
-        <input type="hidden" name="userDto" th:value="${userDto.username}">
-        <button type="submit">Vissza</button>
+    <div id="main">
+      <div>
+        <form action="#" th:action="@{/backToHome}" method="post">
+          <input type="hidden" name="userDto" th:value="${userDto.username}">
+          <button type="submit">Vissza</button>
+        </form>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Vásárló</th>
+            <th>Kiállítás dátuma</th>
+            <th>Esedékesség dátuma</th>
+            <th>Tétel neve</th>
+            <th>Komment</th>
+            <th>Ár</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="invoice : ${invoices}" th:attr="data-invoice-id=${invoice.id}" th:onclick="'submitForm(' + ${invoice.id} + ')'" style="cursor: pointer;">
+            <td th:text="${invoice.customer}"></td>
+            <td th:text="${invoice.postDate}"></td>
+            <td th:text="${invoice.deadline}"></td>
+            <td th:text="${invoice.itemNo}"></td>
+            <td th:text="${invoice.comment}"></td>
+            <td th:text="${invoice.price}"></td>
+          </tr>
+        </tbody>
+      </table>
+      <form id="invoice-form" th:action="@{/goToInvoice}" method="post">
+        <input type="hidden" name="userDto" th:value="${userDto.username}"/>
+        <input type="hidden" name="invoiceId" id="invoice-id-input"/>
       </form>
+      <div th:if="${#lists.contains(userDto.roles.![name], 'admin') or #lists.contains(userDto.roles.![name], 'konyvelo')}">
+        <form action="#" th:action="@{/invoiceList/goToInvoiceCreate}" method="post">
+          <input type="hidden" name="username" th:value="${userDto.username}">
+          <button type="submit">Számla létrehozása</button>
+        </form>
+      </div>
     </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Vásárló</th>
-          <th>Kiállítás dátuma</th>
-          <th>Esedékesség dátuma</th>
-          <th>Tétel neve</th>
-          <th>Komment</th>
-          <th>Ár</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="invoice : ${invoices}" th:attr="data-invoice-id=${invoice.id}" th:onclick="'submitForm(' + ${invoice.id} + ')'" style="cursor: pointer;">
-          <td th:text="${invoice.customer}"></td>
-          <td th:text="${invoice.postDate}"></td>
-          <td th:text="${invoice.deadline}"></td>
-          <td th:text="${invoice.itemNo}"></td>
-          <td th:text="${invoice.comment}"></td>
-          <td th:text="${invoice.price}"></td>
-        </tr>
-      </tbody>
-    </table>
-    <form id="invoice-form" th:action="@{/goToInvoice}" method="post">
-      <input type="hidden" name="userDto" th:value="${userDto.username}"/>
-      <input type="hidden" name="invoiceId" id="invoice-id-input"/>
-    </form>
 
     <script>
       function submitForm(invoiceId) {

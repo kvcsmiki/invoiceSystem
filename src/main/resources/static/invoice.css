@@ -1,0 +1,16 @@
+div{
+    margin: 2em;
+}
+#main{
+    width: 50%;
+    border: thin solid black;
+    padding: 2em;
+    margin: auto;
+}
+label{
+    margin-right: 2em;
+}
+#details{
+    width: 65%;
+    margin:auto;
+}

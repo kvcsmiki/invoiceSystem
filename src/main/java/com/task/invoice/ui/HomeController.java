@@ -63,6 +63,7 @@ public class HomeController {
                                    Model model, RedirectAttributes redirectAttributes){
         UserDto userDto = userService.getUser(username).get();
         redirectAttributes.addFlashAttribute("userDto",userDto);
+        redirectAttributes.addFlashAttribute("backPage","home");
         return "redirect:/invoiceCreate";
     }
 

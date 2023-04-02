@@ -3,46 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <title>Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{static/admin.css}">
 </head>
 <body>
-    <div>
-        <p th:if="${errorMessage != ''}" th:text="${errorMessage}"></p>
+    <div id="main">
+        <div>
+            <p th:if="${errorMessage != ''}" th:text="${errorMessage}"></p>
+        </div>
+        <div>
+            <form action="#" th:action="@{/backToHome}" method="post">
+                <input type="hidden" name="userDto" th:value="${userDto.username}">
+                <button type="submit">Vissza</button>
+            </form>
+        </div>
+        <table>
+            <tr>
+                <th>Felhasználónév</th>
+                <th>Szerepek</th>
+                <th>Törlés</th>
+            </tr>
+            <tr th:each="user : ${users}">
+                <td th:text="${user.username}"></td>
+                <td>
+                    <form method="post" th:action="@{/admin/saveRoles}">
+                        <input type="hidden" name="userDto" th:value="${userDto.username}">
+                        <input type="hidden" name="username" th:value="${user.username}" />
+                        <select multiple name="selectedRoles">
+                            <option th:each="role : ${roles}"
+                                    th:value="${role.name}"
+                                    th:text="${role.name}"
+                                    th:selected="${user.roles.contains(role)}"></option>
+                        </select>
+                        <button type="submit" style="margin: auto;">Mentés</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="post" th:action="@{/admin/deleteUser}">
+                        <input type="hidden" name="userDto" th:value="${userDto.username}">
+                        <input type="hidden" name="username" th:value="${user.username}" />
+                        <button type="submit">Törlés</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
     </div>
-    <div>
-        <form action="#" th:action="@{/backToHome}" method="post">
-            <input type="hidden" name="userDto" th:value="${userDto.username}">
-            <button type="submit">Vissza</button>
-        </form>
-    </div>
-    <table>
-        <tr>
-            <th>Username</th>
-            <th>Roles</th>
-            <th>Delete</th>
-        </tr>
-        <tr th:each="user : ${users}">
-            <td th:text="${user.username}"></td>
-            <td>
-                <form method="post" th:action="@{/admin/saveRoles}">
-                    <input type="hidden" name="userDto" th:value="${userDto.username}">
-                    <input type="hidden" name="username" th:value="${user.username}" />
-                    <select multiple name="selectedRoles">
-                        <option th:each="role : ${roles}"
-                                th:value="${role.name}"
-                                th:text="${role.name}"
-                                th:selected="${user.roles.contains(role)}"></option>
-                    </select>
-                    <button type="submit">Save</button>
-                </form>
-            </td>
-            <td>
-                <form method="post" th:action="@{/admin/deleteUser}">
-                    <input type="hidden" name="userDto" th:value="${userDto.username}">
-                    <input type="hidden" name="username" th:value="${user.username}" />
-                    <button type="submit">Delete</button>
-                </form>
-            </td>
-        </tr>
-    </table>
 </body>
 </html>

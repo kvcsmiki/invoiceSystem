@@ -1,0 +1,13 @@
+#main{
+    width: 50%;
+    border: thin solid black;
+    padding: 2em;
+    margin: auto;
+}
+table{
+    margin: 0.5em;
+    width: 100%;
+}
+td.column-class{
+    width: 25%;
+}

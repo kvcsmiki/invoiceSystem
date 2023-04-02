@@ -1,0 +1,18 @@
+td{
+    width: 15%;
+}
+div{
+    margin: 2em;
+}
+#main{
+    width: 90%;
+    border: thin solid black;
+    padding: 2em;
+    margin: auto;
+}
+table{
+    margin: auto;
+}
+tr{
+    border-bottom: thin solid black;
+}
