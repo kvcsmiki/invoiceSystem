@@ -10,6 +10,7 @@
     <div id="main">
         <div>
             <h2>Üdvözöljük <span th:text="${userDto.username}"></span>!</h2>
+            <h4>Utolsó belépés dátuma: <span th:text="${#dates.format(userDto.loginDate, 'yyyy-MM-dd HH:mm:ss')}"></span></h4>
             <h2>Szerepkörök:</h2>
             <ul>
                 <li th:each="role: ${userDto.roles}">
